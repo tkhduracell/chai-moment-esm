@@ -1,6 +1,8 @@
-# Chai MomentJS
+# chai-moment-ts - Chai MomentTS
 
-**Chai MomentJS** is a plugin for the [Chai][1] assertion library that provides date/time comparisons. It is a wrapper for some of the query functions in the [MomentJS][2] date library. Use **Chai MomentJS** to write fluent BDD/TDD tests and get useful error messages.
+This is copy of https://github.com/alexgs/chai-moment-js
+
+**Chai MomentTS** is a plugin for the [Chai][1] assertion library that provides date/time comparisons. It is a wrapper for some of the query functions in the [MomentJS][2] date library. Use **Chai MomentTS** to write fluent BDD/TDD tests and get useful error messages.
 
 In other words, _don't_ do this:
 
@@ -24,16 +26,15 @@ expect( moment('2016-12-31') ).is.same.moment( '2017-01-01' );
 Include the plugin as normal:
 
 ```javascript
-let chai = require( 'chai' );
-let chaiMoment = require( 'chai-moment-js' );
+import { use as chaiuse, expect } from 'chai'
+import * as chaimoment from 'chai-moment-js'
 
-chai.use( chaiMoment );
-let expect = chai.expect;
+cchaiuse(chaimoment)
 ```
 
 ### Test Methods
 
-**Chai MomentJS** provides two methods that can used to compare dates: `moment` and `betweenMoments`.
+**Chai MomentTS** provides two methods that can used to compare dates: `moment` and `betweenMoments`.
 
 #### moment( date, [accuracy] )
 
