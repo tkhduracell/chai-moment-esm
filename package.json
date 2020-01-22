@@ -4,8 +4,9 @@
   "description": "Date/time comparisons in Chai with MomentJS",
   "main": "index.js",
   "types": "index.d.ts",
+  "type": "module",
   "scripts": {
-    "test": "mocha --reporter spec"
+    "test": "mocha --reporter spec --require esm test/**/*.*"
   },
   "repository": {
     "type": "git",
@@ -18,14 +19,15 @@
   },
   "license": "BSD-3-Clause",
   "dependencies": {
-    "lodash": "^4.17.15",
+    "lodash.curry": "^4.1.1",
     "moment": "^2.24.0"
   },
   "peerDependencies": {
-    "chai": ">4 <5"
+    "chai": ">=4 <5"
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "esm": "^3.2.25",
     "mocha": "^6.2.0"
   }
 }

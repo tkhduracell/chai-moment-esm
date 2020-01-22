@@ -1,5 +1,5 @@
-let moment = require( 'moment' );
-let _ = require( 'lodash' );    // TODO Only require necessary modules
+import moment from 'moment'
+import curry from 'lodash.curry'
 
 const AFTER = 'after';
 const BEFORE = 'before';
@@ -64,7 +64,7 @@ let chainableError = function( name ) {
     }
 };
 
-module.exports = function( chai, utils ) {
+export function chaiMoment( chai, utils ) {
     let Assertion = chai.Assertion;
 
     Assertion.addChainableMethod( AFTER, chainableError( AFTER ), function() {
@@ -95,12 +95,13 @@ module.exports = function( chai, utils ) {
         // Do this check independent of `this` so it is not affect by flags
         new Assertion(
             moment.isDate( start ) || moment.isMoment( start ),
-            errorMessages.getBadDate( start )
-        ).is.true();
+            errorMessages.getBadDate( start ),
+        ).to.be.true;
         new Assertion(
             moment.isDate( end ) || moment.isMoment( end ),
-            errorMessages.getBadDate( end )
-        ).is.true();
+            errorMessages.getBadDate( end ),
+            ""
+        ).to.be.true;
 
         // Make sure that we have Moment objects
         let obj = ensureMoment( this._obj );
@@ -110,11 +111,11 @@ module.exports = function( chai, utils ) {
         // Use a curried function, so we don't type the args to `this.assert` every time
         let compareThisTo = null;
         if ( inclusivity ) {
-            compareThisTo = _.curry( obj.isBetween.bind( obj ), 4 )( _, _, accuracy, inclusivity );
+            compareThisTo = curry( obj.isBetween.bind( obj ), 4 )( curry.placeholder, curry.placeholder, accuracy, inclusivity );
         } else if ( accuracy ) {
-            compareThisTo = _.curry( obj.isBetween.bind( obj ), 3 )( _, _, accuracy );
+            compareThisTo = curry( obj.isBetween.bind( obj ), 3 )( curry.placeholder, curry.placeholder, accuracy );
         } else {
-            compareThisTo = _.curry( obj.isBetween.bind( obj ), 2 )( _, _ );
+            compareThisTo = curry( obj.isBetween.bind( obj ), 2 )( curry.placeholder, curry.placeholder );
         }
 
         // Do the comparison
@@ -129,7 +130,7 @@ module.exports = function( chai, utils ) {
         new Assertion(
             moment.isDate( timestamp ) || moment.isMoment( timestamp ),
             errorMessages.getBadDate( timestamp )
-        ).is.true();
+        ).to.be.true;
 
         // Make sure that we have Moment objects
         let obj = ensureMoment( this._obj );
@@ -158,9 +159,9 @@ module.exports = function( chai, utils ) {
         // Create a curried comparison function, to reduce redundancy
         let compareThisTo = null;
         if ( accuracy ) {
-            compareThisTo = _.curry( comparatorFn, 2 )( _, accuracy );
+            compareThisTo = curry( comparatorFn, 2 )( curry.placeholder, accuracy );
         } else {
-            compareThisTo = _.curry( comparatorFn, 1 );
+            compareThisTo = curry( comparatorFn, 1 );
         }
 
         // Do the comparison
@@ -169,5 +170,4 @@ module.exports = function( chai, utils ) {
         this.assert( compareThisTo( timestamp ), positive, negative, expected, actual, true );
     } );
 };
-
-module.exports.messages = errorMessages;
+export const messages = errorMessages
