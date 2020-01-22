@@ -1,21 +1,21 @@
 {
-  "name": "chai-moment-ts",
+  "name": "chai-moment-esm",
   "version": "1.0.0",
   "description": "Date/time comparisons in Chai with MomentJS",
   "main": "index.js",
   "types": "index.d.ts",
   "type": "module",
   "scripts": {
-    "test": "mocha --reporter spec --require esm test/**/*.*"
+    "test": "mocha --reporter spec --require esm test/**/*.js"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/tkhduracell/chai-moment-ts.git"
+    "url": "git://github.com/tkhduracell/chai-moment-esm.git"
   },
   "author": {
     "name": "Filip Lindqvist",
-    "email": "buggfille@gmail.com",
-    "url": "https://github.com/tkhduracell/chai-moment-ts"
+    "email": "buggfille+npm@gmail.com",
+    "url": "https://github.com/tkhduracell/chai-moment-esm"
   },
   "license": "BSD-3-Clause",
   "dependencies": {

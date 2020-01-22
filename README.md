@@ -1,8 +1,8 @@
-# chai-moment-ts - Chai MomentTS
+# chai-moment-esm - Chai MomentTS
 
-This is copy of https://github.com/alexgs/chai-moment-js
+This is copy of https://github.com/alexgs/chai-moment-js but updated for ESM.
 
-**Chai MomentTS** is a plugin for the [Chai][1] assertion library that provides date/time comparisons. It is a wrapper for some of the query functions in the [MomentJS][2] date library. Use **Chai MomentTS** to write fluent BDD/TDD tests and get useful error messages.
+**Chai MomentJS** is a plugin for the [Chai][1] assertion library that provides date/time comparisons. It is a wrapper for some of the query functions in the [MomentJS][2] date library. Use **Chai MomentTS** to write fluent BDD/TDD tests and get useful error messages.
 
 In other words, _don't_ do this:
 
@@ -26,10 +26,10 @@ expect( moment('2016-12-31') ).is.same.moment( '2017-01-01' );
 Include the plugin as normal:
 
 ```javascript
-import { use as chaiuse, expect } from 'chai'
-import * as chaimoment from 'chai-moment-js'
+import { use, expect } from 'chai'
+import { chaiMoment } from 'chai-moment-esm'
 
-cchaiuse(chaimoment)
+use(chaiMoment)
 ```
 
 ### Test Methods
@@ -156,11 +156,9 @@ expect( m1 ).is.sameOrAfter.moment( m0, 'second' );     // => true
 
 Thanks to:
 
-- @mguterl for [chai-datetime][3], which inspired this plugin.
-- @fastfrwrd for [chai-moment][10], which I didn't know about until I got a name collision upon running `npm publish`!
+- @alexgs for [chai-moment-js][3], which this is copy of.
 
-[3]: https://github.com/mguterl/chai-datetime
-[10]: https://www.npmjs.com/package/chai-moment
+[3]: https://github.com/alexgs/chai-moment-js
 
 ## License
 
