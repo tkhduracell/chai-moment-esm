@@ -1,11 +1,9 @@
-let chai = require( 'chai' );
-let chaiMoment = require( '../index' );
-let dirtyChai = require( 'dirty-chai' );
-let moment = require( 'moment' );
+import { use, expect } from 'chai';
 
-chai.use( chaiMoment );
-chai.use( dirtyChai );
-let expect = chai.expect;
+import { chaiMoment, messages } from '../index'
+import moment from 'moment'
+
+use( chaiMoment );
 
 describe( 'chai-moment', function() {
     // --- Some Examples ---
@@ -22,7 +20,7 @@ describe( 'chai-moment', function() {
             badDates.forEach( function( value ) {
                 expect( function() {
                     expect( 0 ).is.moment( value );
-                } ).to.throw( Error, chaiMoment.messages.getBadDate( value ) );
+                } ).to.throw( Error, messages.getBadDate( value ) );
             } );
         } );
 
@@ -41,17 +39,17 @@ describe( 'chai-moment', function() {
             // Test "fail" condition
             expect( function() {
                 expect( m4 ).is.moment( m5 );
-            } ).to.throw( Error, chaiMoment.messages.getComparisonError( m4, m5, 'the same as' ) );
+            } ).to.throw( Error, messages.getComparisonError( m4, m5, 'the same as' )[0]);
         } );
 
         it( 'accepts an optional second parameter to control the specificity of the comparison', function() {
-            let m4 = moment( 1487070166773 );
-            let m5 = moment( 1487070166000 );
-            let m6 = moment( '2017-02-14T06:02:00.000-05:00' );
-            let m7 = moment( '2017-02-14T06:00:00.000-05:00' );
-            let m8 = moment( '2017-02-14T16:00:00.000-05:00' );
-            let m9 = moment( '2017-02-13' );
-            let m10 = moment( '2017-09-13' );
+            let m4 = moment.utc( 1487070166773 );
+            let m5 = moment.utc( 1487070166000 );
+            let m6 = moment.utc( '2017-02-14T06:02:00.000-05:00' );
+            let m7 = moment.utc( '2017-02-14T06:00:00.000-05:00' );
+            let m8 = moment.utc( '2017-02-14T16:00:00.000-05:00' );
+            let m9 = moment.utc( '2017-02-13' );
+            let m10 = moment.utc( '2017-09-13' );
 
             // Valid options are in the [MomentJS documentation][1]
             // [1]: https://momentjs.com/docs/#/manipulating/start-of/
@@ -74,13 +72,13 @@ describe( 'chai-moment', function() {
             badDates.forEach( function( value ) {
                 expect( function() {
                     expect( 0 ).is.betweenMoments( value, now );
-                } ).to.throw( Error, chaiMoment.messages.getBadDate( value ) );
+                } ).to.throw( Error, messages.getBadDate( value ) );
             } );
 
             badDates.forEach( function( value ) {
                 expect( function() {
                     expect( 0 ).is.betweenMoments( now, value );
-                } ).to.throw( Error, chaiMoment.messages.getBadDate( value ) );
+                } ).to.throw( Error, messages.getBadDate( value ) );
             } );
         } );
 
@@ -97,11 +95,11 @@ describe( 'chai-moment', function() {
             // Test basic *fail*
             expect( function() {
                 expect( m2 ).is.betweenMoments( start, end );
-            } ).to.throw( Error, chaiMoment.messages.getBetweenError( m2, start, end ) );
+            } ).to.throw( Error, messages.getBetweenError( m2, start, end )[0] );
 
             expect( function() {
                 expect( m3 ).is.betweenMoments( start, end );
-            } ).to.throw( Error, chaiMoment.messages.getBetweenError( m3, start, end ) );
+            } ).to.throw( Error, messages.getBetweenError( m3, start, end )[0] );
 
             // Test *pass* with specificity
             let m4   = moment( 1487156501900 );
@@ -113,7 +111,7 @@ describe( 'chai-moment', function() {
             expect( m4 ).is.betweenMoments( start, end2 );
             expect( function() {
                 expect( m4 ).is.betweenMoments( start, end2, 'second' );
-            } ).to.throw( Error, chaiMoment.messages.getBetweenError( m4, start, end2 ) );
+            } ).to.throw( Error, messages.getBetweenError( m4, start, end2 )[0] );
             expect( m4 ).is.not.betweenMoments( start, end2, 'second' );
 
             // Test *pass* with specificity and inclusivity
@@ -131,16 +129,16 @@ describe( 'chai-moment', function() {
 
             expect( function() {
                 expect( m1 ).is.after.betweenMoments( start, end );
-            } ).to.throw( Error, chaiMoment.messages.noFlagsForBetween );
+            } ).to.throw( Error, messages.noFlagsForBetween );
             expect( function() {
                 expect( m1 ).is.before.betweenMoments( start, end );
-            } ).to.throw( Error, chaiMoment.messages.noFlagsForBetween );
+            } ).to.throw( Error, messages.noFlagsForBetween );
             expect( function() {
                 expect( m1 ).is.sameOrAfter.betweenMoments( start, end );
-            } ).to.throw( Error, chaiMoment.messages.noFlagsForBetween );
+            } ).to.throw( Error, messages.noFlagsForBetween );
             expect( function() {
                 expect( m1 ).is.sameOrBefore.betweenMoments( start, end );
-            } ).to.throw( Error, chaiMoment.messages.noFlagsForBetween );
+            } ).to.throw( Error, messages.noFlagsForBetween );
         } );
     } );
 
@@ -151,7 +149,7 @@ describe( 'chai-moment', function() {
             let m2 = moment( '2017-01-01' );
             expect( function() {
                 expect( m2 ).is.after( m1 );
-            } ).to.throw( Error, chaiMoment.messages.getChainableError( 'after' ) );
+            } ).to.throw( Error, messages.getChainableError( 'after' ) );
         } );
 
         it( 'returns true if the target date is the after the specified date', function() {
@@ -166,7 +164,7 @@ describe( 'chai-moment', function() {
             // Test *fail* condition
             expect( function() {
                 expect( m1 ).is.after.moment( m2 );
-            } ).to.throw( Error, chaiMoment.messages.getComparisonError( m2, m1, 'after' ) );
+            } ).to.throw( Error, messages.getComparisonError( m1, m2, 'after' )[0] );
         } );
     } );
 
@@ -177,7 +175,7 @@ describe( 'chai-moment', function() {
             let m2 = moment( '2017-01-01' );
             expect( function() {
                 expect( m1 ).is.before( m2 );
-            } ).to.throw( Error, chaiMoment.messages.getChainableError( 'before' ) );
+            } ).to.throw( Error, messages.getChainableError( 'before' ) );
         } );
 
         it( 'returns true if target date is before the specified date', function() {
@@ -193,7 +191,7 @@ describe( 'chai-moment', function() {
             // Test "fail" condition
             expect( function() {
                 expect( m5 ).is.not.before.moment( m4 );
-            } ).to.throw( Error, chaiMoment.messages.getComparisonError( m5, m4, 'before' ) );
+            } ).to.throw( Error, messages.getComparisonError( m5, m4, 'before' )[1] );
 
             // Test "specificity" parameter
             expect( m5 ).is.same.moment( m4, 'second' );
@@ -208,7 +206,7 @@ describe( 'chai-moment', function() {
             let m2 = moment( '2017-01-01' );
             expect( function() {
                 expect( m1 ).is.sameOrAfter( m1 );
-            } ).to.throw( Error, chaiMoment.messages.getChainableError( 'sameOrAfter' ) );
+            } ).to.throw( Error, messages.getChainableError( 'sameOrAfter' ) );
         } );
 
         it( 'returns true if the target date is the same as or after the specified date', function() {
@@ -224,7 +222,7 @@ describe( 'chai-moment', function() {
             // Test *fail* condition
             expect( function() {
                 expect( m1 ).is.sameOrAfter.moment( m2 );
-            } ).to.throw( Error, chaiMoment.messages.getComparisonError( m2, m1, 'same or before' ) );
+            } ).to.throw( Error, messages.getComparisonError( m1, m2, 'same or after' )[0] );
         } );
 
     } );
@@ -235,8 +233,8 @@ describe( 'chai-moment', function() {
             let m1 = moment( '2016-12-31' );
             let m2 = moment( '2017-01-01' );
             expect( function() {
-                expect( m2 ).is.sameOrBefore( m2 );
-            } ).to.throw( Error, chaiMoment.messages.getChainableError( 'sameOrBefore' ) );
+                expect( m2 ).is.sameOrBefore( m1 );
+            } ).to.throw( Error, messages.getChainableError( 'sameOrBefore' ) );
         } );
 
         it( 'returns true if the target date is the same as or before the specified date', function() {
@@ -252,7 +250,7 @@ describe( 'chai-moment', function() {
             // Test *fail* condition
             expect( function() {
                 expect( m2 ).is.sameOrBefore.moment( m1 );
-            } ).to.throw( Error, chaiMoment.messages.getComparisonError( m2, m1, 'same or before' ) );
+            } ).to.throw( Error, messages.getComparisonError( m2, m1, 'same or before' )[0] );
         } );
 
     } );
