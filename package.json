@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Date/time comparisons in Chai with MomentJS",
   "main": "index.js",
+  "module": "main.js",
   "types": "index.d.ts",
   "type": "module",
   "scripts": {
